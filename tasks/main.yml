@@ -13,7 +13,16 @@
 
 - name: Configure YUM repository
   yum_repository:
+    enabled: false
     name: pgdg-ansible
     description: Temporary repository installed by Ansible
     baseurl: https://download.postgresql.org/pub/repos/yum/{{ pg_version }}/{{ rh_family }}/{{ rh_flavor }}-$releasever-$basearch
-  when: "{{ rh_release.results | selectattr('yumstate', 'equalto', 'installed') | list | length == 0 }}"
+  when: "{{ not (rh_release.results | selectattr('yumstate', 'equalto', 'installed') | list) }}"
+
+- name: Install Postgres packages
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - "pgdg-{{ rh_suffix }}{{ pg_shortver }}"
+    - postgresql{{ pg_shortver }}
+    - postgresql{{ pg_shortver }}-server
