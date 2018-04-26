@@ -1,5 +1,2 @@
 ---
-- name: Load defaults for {{ ansible_os_family }}
-  include_vars: "{{ ansible_os_family }}.yml"
-
 - include: "{{ ansible_os_family }}.yml"
