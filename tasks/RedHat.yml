@@ -20,7 +20,7 @@
     enabled: false
     name: pgdg-ansible
     description: Temporary repository installed by Ansible
-    baseurl: https://download.postgresql.org/pub/repos/yum/{{ pg_version }}/{{ rh_family }}/{{ rh_flavor }}-$releasever-$basearch
+    baseurl: https://download.postgresql.org/pub/repos/yum/{{ pg_version }}/{{ ansible_os_family | lower }}/{{ rh_flavor }}-$releasever-$basearch
   when: not (rh_release.results | selectattr('yumstate', 'match', 'installed') | list)
   notify: Cleanup temporary YUM repo
 
